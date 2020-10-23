@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strimzi-consumer-deployment
+  labels:
+    app: strimzi-consumer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: strimzi-consumer
+  template:
+    metadata:
+      labels:
+        app: strimzi-consumer
+    spec:
+      containers:
+      - name: strimzi-consumer
+        image: nrsina/strimzi-consumer:v1
+        imagePullPolicy: Never # IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: management
+          periodSeconds: 10
+          failureThreshold: 3
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /alive
+            port: management
+          periodSeconds: 10
+          failureThreshold: 5
+          initialDelaySeconds: 20
+        ports:
+        - name: management
+          containerPort: 8558
+          protocol: TCP
+        env:
+        - name: SC_BOOTSTRAP_SERVER
+          value: "my-cluster-kafka-bootstrap.kafka:9092"
+        - name: SC_GROUP_ID
+          value: "my-group"
+        - name: SC_TOPIC_NAME
+          value: "my-topic"
+        - name: SC_PARALLELISM_NUM
+          value: "5"
+        - name: SC_SLEEP_TIME
+          value: "500"

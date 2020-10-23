@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Silence initial setup logging from Logback -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+    <appender name="STDOUT" target="System.out" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>    <!-- %date{ISO8601} %-5level %logger{36} - %msg MDC: {%mdc}%n -->
+            <pattern>[%date{ISO8601}] [%level] [%logger] [%marker] [%thread] - %msg {%mdc}%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>8192</queueSize>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="ASYNC"/>
+    </root>
+
+    <logger name="com.codahale.metrics" level="INFO"/>
+    <logger name="org.apache.kafka" level="WARN" />
+    <logger name="io.netty" level="WARN" />
+    <logger name="com.typesafe.sslconfig" level="WARN" />
+    <logger name="akka.http" level="WARN" />
+    <logger name="akka.management" level="WARN" />
+    <logger name="akka.kafka" level="INFO" />
+
+</configuration>
+

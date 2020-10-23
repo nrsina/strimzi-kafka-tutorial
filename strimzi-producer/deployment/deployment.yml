@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strimzi-producer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strimzi-producer
+  template:
+    metadata:
+      labels:
+        app: strimzi-producer
+    spec:
+      containers:
+      - name: strimzi-producer
+        image: nrsina/strimzi-producer:v1
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 3
+          timeoutSeconds: 1
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 3
+          timeoutSeconds: 1
+          periodSeconds: 15
+        env:
+        - name: SP_BOOTSTRAP_SERVERS
+          value: "my-cluster-kafka-bootstrap.kafka:9092"
+        - name: SP_KAFKA_TOPIC
+          value: "my-topic"
+        - name: SP_SLEEP_TIME_MS
+          value: "200"
+        - name: SP_BUFFER_SIZE
+          value: "5"

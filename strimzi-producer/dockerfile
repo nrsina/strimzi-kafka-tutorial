@@ -1,0 +1,7 @@
+FROM golang:1.15-alpine
+LABEL maintainer="Sina Nourian <sina.nourian@gmail.com>"
+WORKDIR /app
+COPY . .
+RUN go mod download
+RUN go build -o producer ./cmd/producer
+CMD ["./producer"]

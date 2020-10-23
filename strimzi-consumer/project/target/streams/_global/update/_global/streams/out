@@ -1,0 +1,4 @@
+[debug] not up to date. inChanged = true, force = false
+[debug] Updating ProjectRef(uri("file:/C:/Users/Sina/Desktop/strimzi-kafka-tutorial/strimzi-consumer/project/"), "strimzi-consumer-build")...
+[debug] Done updating ProjectRef(uri("file:/C:/Users/Sina/Desktop/strimzi-kafka-tutorial/strimzi-consumer/project/"), "strimzi-consumer-build")
+[warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.

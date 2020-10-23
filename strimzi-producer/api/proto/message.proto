@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package producer;
+
+option go_package = "producer";
+
+message MyMessage {
+  string id = 1;
+  string message = 2;
+}
+
+// protoc -I=...\strimzi-producer\api\proto --go_out=...\strimzi-producer\internal\producer ...\strimzi-producer\api\proto\*.proto
